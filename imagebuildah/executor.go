@@ -20,6 +20,7 @@ import (
 	"github.com/containers/image/v5/transports"
 	"github.com/containers/image/v5/transports/alltransports"
 	"github.com/containers/image/v5/types"
+	encconfig "github.com/containers/ocicrypt/config"
 	"github.com/containers/storage"
 	"github.com/containers/storage/pkg/archive"
 	v1 "github.com/opencontainers/image-spec/specs-go/v1"
@@ -56,6 +57,7 @@ type Executor struct {
 	registry                       string
 	ignoreUnrecognizedInstructions bool
 	quiet                          bool
+	encryptionConfig               *encconfig.EncryptConfig
 	runtime                        string
 	runtimeArgs                    []string
 	transientMounts                []Mount
@@ -144,6 +146,7 @@ func NewExecutor(store storage.Store, options BuildOptions, mainNode *parser.Nod
 		ignoreUnrecognizedInstructions: options.IgnoreUnrecognizedInstructions,
 		quiet:                          options.Quiet,
 		runtime:                        options.Runtime,
+		encryptionConfig:               options.EncryptionConfig,
 		runtimeArgs:                    options.RuntimeArgs,
 		transientMounts:                transientMounts,
 		compression:                    options.Compression,

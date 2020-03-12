@@ -56,6 +56,7 @@ type BudResults struct {
 	Creds               string
 	DisableCompression  bool
 	DisableContentTrust bool
+	EncryptionKey       string
 	File                []string
 	Format              string
 	Iidfile             string
@@ -158,6 +159,7 @@ func GetBudFlags(flags *BudResults) pflag.FlagSet {
 	fs.StringVar(&flags.Creds, "creds", "", "use `[username[:password]]` for accessing the registry")
 	fs.BoolVarP(&flags.DisableCompression, "disable-compression", "D", true, "don't compress layers by default")
 	fs.BoolVar(&flags.DisableContentTrust, "disable-content-trust", false, "This is a Docker specific option and is a NOOP")
+	fs.StringVar(&flags.EncryptionKey, "encryption-key", "", "`pathname` of the encryption key file")
 	fs.StringSliceVarP(&flags.File, "file", "f", []string{}, "`pathname or URL` of a Dockerfile")
 	fs.StringVar(&flags.Format, "format", DefaultFormat(), "`format` of the built image's manifest and metadata. Use BUILDAH_FORMAT environment variable to override.")
 	fs.StringVar(&flags.Iidfile, "iidfile", "", "`file` to write the image ID to")

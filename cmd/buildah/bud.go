@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -10,6 +11,8 @@ import (
 	buildahcli "github.com/containers/buildah/pkg/cli"
 	"github.com/containers/buildah/pkg/parse"
 	"github.com/containers/buildah/util"
+	encconfig "github.com/containers/ocicrypt/config"
+	enchelpers "github.com/containers/ocicrypt/helpers"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -105,6 +108,17 @@ func budCmd(c *cobra.Command, inputArgs []string, iopts budOptions) error {
 	}
 	if err := buildahcli.CheckAuthFile(iopts.BudResults.Authfile); err != nil {
 		return err
+	}
+
+	var encConfig *encconfig.EncryptConfig
+	if len(iopts.BudResults.EncryptionKey) > 0 {
+		encryptionKeys := []string{iopts.BudResults.EncryptionKey}
+		ecc, err := enchelpers.CreateCryptoConfig(encryptionKeys, []string{})
+		if err != nil {
+			return fmt.Errorf("Invalid encryption keys: %v", err)
+		}
+		cc := encconfig.CombineCryptoConfigs([]encconfig.CryptoConfig{ecc})
+		encConfig = cc.EncryptConfig
 	}
 
 	pullPolicy := imagebuildah.PullIfMissing
@@ -305,6 +319,7 @@ func budCmd(c *cobra.Command, inputArgs []string, iopts budOptions) error {
 		DefaultMountsFilePath:   defaultsMountFile,
 		Devices:                 iopts.Devices,
 		DropCapabilities:        iopts.CapDrop,
+		EncryptionConfig:        encConfig,
 		Err:                     stderr,
 		ForceRmIntermediateCtrs: iopts.ForceRm,
 		IDMappingOptions:        idmappingOptions,

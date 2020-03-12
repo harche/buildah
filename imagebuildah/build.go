@@ -17,6 +17,7 @@ import (
 	"github.com/containers/common/pkg/config"
 	"github.com/containers/image/v5/docker/reference"
 	"github.com/containers/image/v5/types"
+	encconfig "github.com/containers/ocicrypt/config"
 	"github.com/containers/storage"
 	"github.com/containers/storage/pkg/archive"
 	specs "github.com/opencontainers/runtime-spec/specs-go"
@@ -53,6 +54,8 @@ type BuildOptions struct {
 	// needs to be pulled and the image name alone can not be resolved to a
 	// reference to a source image.  No separator is implicitly added.
 	Registry string
+	// EncryptionConfig blah blah blah
+	EncryptionConfig *encconfig.EncryptConfig
 	// IgnoreUnrecognizedInstructions tells us to just log instructions we
 	// don't recognize, and try to keep going.
 	IgnoreUnrecognizedInstructions bool

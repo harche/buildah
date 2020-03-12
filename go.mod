@@ -6,6 +6,7 @@ require (
 	github.com/containernetworking/cni v0.7.2-0.20190904153231-83439463f784
 	github.com/containers/common v0.4.2
 	github.com/containers/image/v5 v5.2.1
+	github.com/containers/ocicrypt v1.0.2-0.20200227154149-9fc1944a9a3b
 	github.com/containers/storage v1.16.1
 	github.com/cyphar/filepath-securejoin v0.2.2
 	github.com/docker/distribution v2.7.1+incompatible
@@ -36,6 +37,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.5.1
 	github.com/syndtr/gocapability v0.0.0-20180916011248-d98352740cb2
+	github.com/vishvananda/netlink v1.1.0 // indirect
 	golang.org/x/crypto v0.0.0-20200220183623-bac4c82f6975
 	golang.org/x/sys v0.0.0-20191127021746-63cb32ae39b2
 )
